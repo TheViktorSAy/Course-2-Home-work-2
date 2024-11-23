@@ -19,14 +19,22 @@ public class APP {
         basket.addProduct(product4);
         basket.addProduct(product5);
 
+        //попытка добавить продукт
         Product product6 = new Product("Мандарин", 60);
-        basket.addProduct(product6);
+                basket.addProduct(product6);
+        //печать содержимого корзины
         basket.printContens();
+        //сумма корзины тотал
         System.out.println( "Общая стоимость корзины " + basket.getTotalPrice());
+        //поиск товара
         System.out.println("Содержит ли корзина Яблоко?" + basket.containtsProduct("Груша"));
+        //очистка корзины
         basket.clearBasket();
+        //содержимое пустой корзины
         basket.printContens();
+        //стоимость пустой корзины
         System.out.println("Общая стоимость пустой корзины " + basket.getTotalPrice());
+        //поиск товара в пустой корзине
         System.out.println("Содержит ли корзина яблоко? " + basket.containtsProduct("Яблоко"));
     }
 }
