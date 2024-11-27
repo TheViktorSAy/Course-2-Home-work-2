@@ -18,9 +18,10 @@ public class SimpleProduct extends Product {
         return false; // Это специальный товар
     }
 
+
     @Override
     public String toString() {
-        return getName() + ": " + getPrice();
+        return super.getName() + ": " + getPrice();
     }
 
 
