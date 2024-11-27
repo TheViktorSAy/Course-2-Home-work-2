@@ -75,10 +75,6 @@ public class APP {
         System.out.println("Результаты поиска для 'Киви': " + Arrays.toString(searchEngine.search("Киви")));
 
 
-
-
-
-
     }
 
 
