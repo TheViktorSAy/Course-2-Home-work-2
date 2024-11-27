@@ -30,7 +30,7 @@ public class APP {
         //SimpleProduct mandarin = new SimpleProduct("Мандарин", 60);
         //basket.addProduct(mandarin);
         //печать содержимого корзины
-        basket.printBasket();
+        //basket.printBasket();
         //сумма корзины тотал
         //System.out.println("Общая стоимость корзины " + basket.getTotalPrice());
         //поиск товара
@@ -42,7 +42,6 @@ public class APP {
         //стоимость пустой корзины
         //System.out.println("Общая стоимость пустой корзины " + basket.getTotalPrice());
         //поиск товара в пустой корзине
-
         //System.out.println("Содержит ли корзина Яблоко? " + basket.containsProduct("Яблоко"));
 
         // Создание объекта SearchEngine
