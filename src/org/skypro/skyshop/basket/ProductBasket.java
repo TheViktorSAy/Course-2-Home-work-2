@@ -40,7 +40,6 @@ public class ProductBasket {
         }
     }
 
-
     public boolean containsProduct(String productName) {
         for (int i = 0; i < count; i++) {
             if (products[i].getName().equals(productName)) {
