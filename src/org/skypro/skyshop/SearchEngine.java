@@ -33,4 +33,36 @@ public class SearchEngine {
 
         return results;
     }
+
+    public Searchable findBestMatch(String search) throws BestResultNotFound {
+        int maxCount = 0;
+        Searchable bestMatch = null;
+
+        for (int i = 0; i < count; i++) {
+            String term = searchableItems[i].getSearchTerm();
+            int currentCount = countOccurrences(term.toLowerCase(), search.toLowerCase());
+
+            if (currentCount > maxCount) {
+                maxCount = currentCount;
+                bestMatch = searchableItems[i];
+            }
+        }
+
+        if (bestMatch == null) {
+            throw new BestResultNotFound("Не найдено подходящих результатов для запроса: " + search);
+        }
+
+        return bestMatch;
+    }
+
+    private int countOccurrences(@org.jetbrains.annotations.NotNull String str, String substring) {
+        int count = 0;
+        int index = 0;
+
+        while ((index = str.indexOf(substring, index)) != -1) {
+            count++;
+            index += substring.length();
+        }
+        return count;
+    }
 }
