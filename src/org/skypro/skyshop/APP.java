@@ -1,50 +1,38 @@
 package org.skypro.skyshop;
 
 import org.skypro.skyshop.basket.ProductBasket;
-import org.skypro.skyshop.product.DiscountedProduct;
-import org.skypro.skyshop.product.FixPriceProduct;
-import org.skypro.skyshop.product.SimpleProduct;
-import org.skypro.skyshop.product.Product;
-import org.skypro.skyshop.product.Article;
+import org.skypro.skyshop.product.*;
 
-import java.util.Arrays;
+
 
 public class APP {
     public static void main(String[] args) {
-
         ProductBasket basket = new ProductBasket();
 
-        Product apple = new SimpleProduct("Яблоко", 100);
-        Product banana = new DiscountedProduct("Банан", 50, 10); // 10% скидка
-        Product orange = new FixPriceProduct("Апельсин");
-        Product pear = new SimpleProduct("Груша", 80);
-        Product qiwi = new SimpleProduct("Киви", 90);
+        Product apple = null;
+        Product pear = null;
+        Product qiwi = null;
+        Product banana = null;
+        Product orange = null;
 
+        try {
+            apple = new SimpleProduct("Яблоко", 100);
+            pear = new SimpleProduct("Груша", 80);
+            qiwi = new SimpleProduct("Киви", 90);
+            banana = new DiscountedProduct("Банан", 50, 20); // процент скидки больше цены
+            orange = new FixPriceProduct("Апельсин");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+        // добавление продуктов в корзину
         basket.addProduct(apple);
         basket.addProduct(banana);
         basket.addProduct(orange);
         basket.addProduct(pear);
         basket.addProduct(qiwi);
 
-        //попытка добавить продукт
-        //SimpleProduct mandarin = new SimpleProduct("Мандарин", 60);
-        //basket.addProduct(mandarin);
-        //печать содержимого корзины
-        //basket.printBasket();
-        //сумма корзины тотал
-        //System.out.println("Общая стоимость корзины " + basket.getTotalPrice());
-        //поиск товара
-        //System.out.println("Содержит ли корзина Яблоко?" + basket.containsProduct("Яблоко"));
-        //очистка корзины
-        //basket.clearBasket();
-        //содержимое пустой корзины
-        //basket.printBasket();
-        //стоимость пустой корзины
-        //System.out.println("Общая стоимость пустой корзины " + basket.getTotalPrice());
-        //поиск товара в пустой корзине
-        //System.out.println("Содержит ли корзина Яблоко? " + basket.containsProduct("Яблоко"));
-
-        // Создание объекта SearchEngine
+        // создание поисковика
         SearchEngine searchEngine = new SearchEngine(10);
         searchEngine.add(apple);
         searchEngine.add(banana);
@@ -52,13 +40,12 @@ public class APP {
         searchEngine.add(pear);
         searchEngine.add(qiwi);
 
-        // Создание и добавление статей
+        // добавление статей
         Article article1 = new Article("Свойство яблоко - ", "Яблоки полезны для дёсен.");
         Article article2 = new Article("Секреты банан - ", "Бананы содержат много калия.");
         Article article3 = new Article("Польза апельсин - ", "Апельсины полезны для здоровья.");
         Article article4 = new Article("Уникальность груша - ", "Груши красивые");
         Article article5 = new Article("Преимущество киви - ", "Киви мохнатые.");
-
 
         searchEngine.add(article1);
         searchEngine.add(article2);
@@ -67,18 +54,25 @@ public class APP {
         searchEngine.add(article5);
 
 
-        // Демонстрация функциональности поиска
-        System.out.println("Результаты поиска для 'Яблоко': " + Arrays.toString(searchEngine.search("Яблоко")));
-        System.out.println("Результаты поиска для 'Банан': " + Arrays.toString(searchEngine.search("Банан")));
-        System.out.println("Результаты поиска для 'Апельсин': " + Arrays.toString(searchEngine.search("Апельсин")));
-        System.out.println("Результаты поиска для 'Груша': " + Arrays.toString(searchEngine.search("Груша")));
-        System.out.println("Результаты поиска для 'Киви': " + Arrays.toString(searchEngine.search("Киви")));
 
+        // демонстрация поиска совпадений
+        try {
+            Searchable bestMatch = searchEngine.findBestMatch("яблоко");
+            System.out.println("Лучший результат для 'яблоко': " + bestMatch);
+        } catch (BestResultNotFound e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
 
+        try {
+            Searchable bestMatch = searchEngine.findBestMatch("неизвестный товар");
+            System.out.println("Лучший результат для 'неизвестный товар': " + bestMatch);
+        } catch (BestResultNotFound e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
     }
-
-
 }
+
+
 
 
 
