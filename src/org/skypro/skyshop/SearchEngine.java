@@ -2,32 +2,22 @@ package org.skypro.skyshop;
 
 import org.skypro.skyshop.product.Searchable;
 
-public class SearchEngine {
-    private Searchable[] searchableItems;
-    private int count = 0;
+import java.util.ArrayList;
+import java.util.List;
 
-    public SearchEngine(int size) {
-        searchableItems = new Searchable[size];
-    }
+public class SearchEngine {
+    private List<Searchable> searchableItems = new ArrayList<>();
 
     public void add(Searchable item) {
-        if (count < searchableItems.length) {
-            searchableItems[count] = item;
-            count++;
-        } else {
-            System.out.println("Невозможно добавить элемент в поисковый движок");
-        }
+        searchableItems.add(item);
     }
 
-    public Searchable[] search(String term) {
-        Searchable[] results = new Searchable[5];
-        int resultCount = 0;
+    public List<Searchable> search(String term) {
+        List<Searchable> results = new ArrayList<>();
 
-        for (int i = 0; i < count; i++) {
-            if (searchableItems[i].getSearchTerm().toLowerCase().contains(term.toLowerCase())) {
-                results[resultCount] = searchableItems[i];
-                resultCount++;
-                if (resultCount == 5) break; // Ограничиваем до 5 результатов
+        for (Searchable item : searchableItems) {
+            if (item.getSearchTerm().toLowerCase().contains(term.toLowerCase())) {
+                results.add(item);
             }
         }
 
@@ -38,13 +28,13 @@ public class SearchEngine {
         int maxCount = 0;
         Searchable bestMatch = null;
 
-        for (int i = 0; i < count; i++) {
-            String term = searchableItems[i].getSearchTerm();
+        for (Searchable item : searchableItems) {
+            String term = item.getSearchTerm();
             int currentCount = countOccurrences(term.toLowerCase(), search.toLowerCase());
 
             if (currentCount > maxCount) {
                 maxCount = currentCount;
-                bestMatch = searchableItems[i];
+                bestMatch = item;
             }
         }
 
@@ -55,7 +45,7 @@ public class SearchEngine {
         return bestMatch;
     }
 
-    private int countOccurrences(@org.jetbrains.annotations.NotNull String str, String substring) {
+    private int countOccurrences(String str, String substring) {
         int count = 0;
         int index = 0;
 
