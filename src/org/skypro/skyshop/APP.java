@@ -4,26 +4,17 @@ import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.*;
 
 
+import java.util.List;
 
 public class APP {
     public static void main(String[] args) {
         ProductBasket basket = new ProductBasket();
 
-        Product apple = null;
-        Product pear = null;
-        Product qiwi = null;
-        Product banana = null;
-        Product orange = null;
-
-        try {
-            apple = new SimpleProduct("Яблоко", 100);
-            pear = new SimpleProduct("Груша", 80);
-            qiwi = new SimpleProduct("Киви", 90);
-            banana = new DiscountedProduct("Банан", 50, 20); // процент скидки больше цены
-            orange = new FixPriceProduct("Апельсин");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Ошибка: " + e.getMessage());
-        }
+        Product apple = new SimpleProduct("Яблоко", 100);
+        Product pear = new SimpleProduct("Груша", 80);
+        Product qiwi = new SimpleProduct("Киви", 90);
+        Product banana = new DiscountedProduct("Банан", 50, 20);
+        Product orange = new FixPriceProduct("Апельсин");
 
         // добавление продуктов в корзину
         basket.addProduct(apple);
@@ -33,42 +24,29 @@ public class APP {
         basket.addProduct(qiwi);
 
         // создание поисковика
-        SearchEngine searchEngine = new SearchEngine(10);
+        SearchEngine searchEngine = new SearchEngine();
         searchEngine.add(apple);
         searchEngine.add(banana);
         searchEngine.add(orange);
         searchEngine.add(pear);
         searchEngine.add(qiwi);
 
-        // добавление статей
-        Article article1 = new Article("Свойство яблоко - ", "Яблоки полезны для дёсен.");
-        Article article2 = new Article("Секреты банан - ", "Бананы содержат много калия.");
-        Article article3 = new Article("Польза апельсин - ", "Апельсины полезны для здоровья.");
-        Article article4 = new Article("Уникальность груша - ", "Груши красивые");
-        Article article5 = new Article("Преимущество киви - ", "Киви мохнатые.");
+        // демонстрация удаления продукта
+        List<Product> removedProducts = basket.removeProductByName("Груша" +
+                "");
+        System.out.println("Удаленные продукты: " + removedProducts);
+        basket.printBasket();
 
-        searchEngine.add(article1);
-        searchEngine.add(article2);
-        searchEngine.add(article3);
-        searchEngine.add(article4);
-        searchEngine.add(article5);
-
-
-
-        // демонстрация поиска совпадений
-        try {
-            Searchable bestMatch = searchEngine.findBestMatch("яблоко");
-            System.out.println("Лучший результат для 'яблоко': " + bestMatch);
-        } catch (BestResultNotFound e) {
-            System.out.println("Ошибка: " + e.getMessage());
+        // попытка удалить несуществующий продукт
+        List<Product> removedProductsNonExistent = basket.removeProductByName("Неизвестный продукт");
+        if (removedProductsNonExistent.isEmpty()) {
+            System.out.println("Список пуст");
         }
+        basket.printBasket();
 
-        try {
-            Searchable bestMatch = searchEngine.findBestMatch("неизвестный товар");
-            System.out.println("Лучший результат для 'неизвестный товар': " + bestMatch);
-        } catch (BestResultNotFound e) {
-            System.out.println("Ошибка: " + e.getMessage());
-        }
+        // демонстрация поиска всех совпадений
+        List<Searchable> searchResults = searchEngine.search("банан");
+        System.out.println("Результаты поиска для 'банан': " + searchResults);
     }
 }
 
