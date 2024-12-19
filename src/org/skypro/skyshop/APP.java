@@ -3,8 +3,8 @@ package org.skypro.skyshop;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.*;
 
-
 import java.util.List;
+import java.util.Map;
 
 public class APP {
     public static void main(String[] args) {
@@ -22,7 +22,6 @@ public class APP {
         basket.addProduct(orange);
         basket.addProduct(pear);
         basket.addProduct(qiwi);
-
         // создание поисковика
         SearchEngine searchEngine = new SearchEngine();
         searchEngine.add(apple);
@@ -32,8 +31,7 @@ public class APP {
         searchEngine.add(qiwi);
 
         // демонстрация удаления продукта
-        List<Product> removedProducts = basket.removeProductByName("Груша" +
-                "");
+        List<Product> removedProducts = basket.removeProductByName("Груша");
         System.out.println("Удаленные продукты: " + removedProducts);
         basket.printBasket();
 
@@ -45,7 +43,7 @@ public class APP {
         basket.printBasket();
 
         // демонстрация поиска всех совпадений
-        List<Searchable> searchResults = searchEngine.search("банан");
+        Map<String, Searchable> searchResults = searchEngine.search("банан");
         System.out.println("Результаты поиска для 'банан': " + searchResults);
     }
 }

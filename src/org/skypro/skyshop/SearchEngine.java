@@ -2,8 +2,7 @@ package org.skypro.skyshop;
 
 import org.skypro.skyshop.product.Searchable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SearchEngine {
     private List<Searchable> searchableItems = new ArrayList<>();
@@ -12,12 +11,12 @@ public class SearchEngine {
         searchableItems.add(item);
     }
 
-    public List<Searchable> search(String term) {
-        List<Searchable> results = new ArrayList<>();
+    public Map<String, Searchable> search(String term) {
+        Map<String, Searchable> results = new TreeMap<>(); // Используем TreeMap для сортировки по ключу
 
         for (Searchable item : searchableItems) {
             if (item.getSearchTerm().toLowerCase().contains(term.toLowerCase())) {
-                results.add(item);
+                results.put(item.getName(), item);
             }
         }
 
