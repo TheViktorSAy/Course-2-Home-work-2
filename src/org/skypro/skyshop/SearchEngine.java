@@ -1,22 +1,32 @@
 package org.skypro.skyshop;
-
 import org.skypro.skyshop.product.Searchable;
-
 import java.util.*;
 
+
 public class SearchEngine {
-    private List<Searchable> searchableItems = new ArrayList<>();
+    private Set<Searchable> searchableItems = new HashSet<>();
 
     public void add(Searchable item) {
         searchableItems.add(item);
     }
 
-    public Map<String, Searchable> search(String term) {
-        Map<String, Searchable> results = new TreeMap<>(); // Используем TreeMap для сортировки по ключу
+    public class SearchableComparator implements Comparator<Searchable> {
+        @Override
+        public int compare(Searchable o1, Searchable o2) {
+            int lengthComparison = Integer.compare(o2.getName().length(), o1.getName().length()); // Сравнение по длине
+            if (lengthComparison != 0) {
+                return lengthComparison; // Если длины разные, возвращаем результат сравнения по длине
+            }
+            return o1.getName().compareTo(o2.getName()); // Если длины одинаковые, сравниваем по имени
+        }
+    }
+
+    public Set<Searchable> search(String term) {
+        TreeSet<Searchable> results = new TreeSet<>(new SearchableComparator()); // Используем TreeMap для сортировки по ключу
 
         for (Searchable item : searchableItems) {
             if (item.getSearchTerm().toLowerCase().contains(term.toLowerCase())) {
-                results.put(item.getName(), item);
+                results.add(item);
             }
         }
 
