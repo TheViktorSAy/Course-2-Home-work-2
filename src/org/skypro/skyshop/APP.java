@@ -5,6 +5,7 @@ import org.skypro.skyshop.product.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class APP {
     public static void main(String[] args) {
@@ -16,12 +17,6 @@ public class APP {
         Product banana = new DiscountedProduct("Банан", 50, 20);
         Product orange = new FixPriceProduct("Апельсин");
 
-        // добавление продуктов в корзину
-        basket.addProduct(apple);
-        basket.addProduct(banana);
-        basket.addProduct(orange);
-        basket.addProduct(pear);
-        basket.addProduct(qiwi);
         // создание поисковика
         SearchEngine searchEngine = new SearchEngine();
         searchEngine.add(apple);
@@ -30,21 +25,29 @@ public class APP {
         searchEngine.add(pear);
         searchEngine.add(qiwi);
 
-        // демонстрация удаления продукта
-        List<Product> removedProducts = basket.removeProductByName("Груша");
-        System.out.println("Удаленные продукты: " + removedProducts);
-        basket.printBasket();
+        // Пример добавления статей
+        // Создание и добавление статей
+        Article article1 = new Article("Статья Свойство яблоко - ", "Яблоки полезны для дёсен.");
+        Article article2 = new Article("Статья Секреты банан - ", "Бананы содержат много калия.");
+        Article article3 = new Article("Статья Польза апельсин - ", "Апельсины полезны для здоровья.");
+        Article article4 = new Article("Статья Уникальность груша - ", "Груши красивые.");
+        Article article5 = new Article("Статья Преимущество киви - ", "Киви мохнатые.");
 
-        // попытка удалить несуществующий продукт
-        List<Product> removedProductsNonExistent = basket.removeProductByName("Неизвестный продукт");
-        if (removedProductsNonExistent.isEmpty()) {
-            System.out.println("Список пуст");
+
+        searchEngine.add(article1);
+        searchEngine.add(article2);
+        searchEngine.add(article3);
+        searchEngine.add(article4);
+        searchEngine.add(article5);
+
+
+        // Поиск
+        Set<Searchable> searchResults = searchEngine.search("статья");
+        System.out.println("Результаты поиска: ");
+        for (Searchable result : searchResults) {
+            System.out.println(result);
         }
-        basket.printBasket();
 
-        // демонстрация поиска всех совпадений
-        Map<String, Searchable> searchResults = searchEngine.search("банан");
-        System.out.println("Результаты поиска для 'банан': " + searchResults);
     }
 }
 
