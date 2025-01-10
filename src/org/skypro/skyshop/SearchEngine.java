@@ -1,6 +1,10 @@
 package org.skypro.skyshop;
+
 import org.skypro.skyshop.product.Searchable;
+
 import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 
 public class SearchEngine {
@@ -8,6 +12,14 @@ public class SearchEngine {
 
     public void add(Searchable item) {
         searchableItems.add(item);
+    }
+
+    public Set<Searchable> search(String term) {
+        Supplier<TreeSet<Searchable>> treeSetSupplier = () -> new TreeSet<>(new SearchableComparator());
+
+        return searchableItems.stream()
+                .filter(item -> item.getSearchTerm().toLowerCase().contains(term.toLowerCase()))
+                .collect(Collectors.toCollection(treeSetSupplier));
     }
 
     public class SearchableComparator implements Comparator<Searchable> {
@@ -21,17 +33,6 @@ public class SearchEngine {
         }
     }
 
-    public Set<Searchable> search(String term) {
-        TreeSet<Searchable> results = new TreeSet<>(new SearchableComparator()); // Используем TreeMap для сортировки по ключу
-
-        for (Searchable item : searchableItems) {
-            if (item.getSearchTerm().toLowerCase().contains(term.toLowerCase())) {
-                results.add(item);
-            }
-        }
-
-        return results;
-    }
 
     public Searchable findBestMatch(String search) throws BestResultNotFound {
         int maxCount = 0;
