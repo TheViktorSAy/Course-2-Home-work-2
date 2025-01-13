@@ -1,5 +1,7 @@
 package org.skypro.skyshop.product;
+
 import java.util.Objects;
+
 public class Article implements Searchable {
     private final String title;
     private final String text;

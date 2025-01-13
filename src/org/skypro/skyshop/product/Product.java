@@ -1,4 +1,5 @@
 package org.skypro.skyshop.product;
+
 import java.util.Objects;
 
 public abstract class Product implements Searchable {
@@ -29,6 +30,7 @@ public abstract class Product implements Searchable {
     public String getContentType() {
         return "PRODUCT"; // Тип контента
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
